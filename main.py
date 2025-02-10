@@ -27,6 +27,7 @@ with open('secret.key', 'rb') as key_file:
         data = {key: cipher_suite.decrypt(value.encode()).decode() for key, value in encrypted_data.items()}
         
 
+
 class AthenaAgent(Workflow):
     def __init__(self, vn, db_type: str, db_credentials: dict, timeout: Optional[float] = 200.0):
         super().__init__(timeout=timeout)
@@ -150,7 +151,7 @@ Return only sql query
             plotly_code = self.vn.generate_plotly_code(question=question, sql=sql_query, df=result_df)
             fig = self.vn.get_plotly_figure(plotly_code=plotly_code, df=result_df)
 
-            return StopEvent(result=[result_df,fig])
+            return StopEvent(result=[result_df, fig])
         except Exception as e:
             st.error(f"Error: {e}")
             return StopEvent(result="An error occurred while processing your query. Please try again.")
@@ -182,7 +183,7 @@ def main():
         db_credentials["project_id"] = st.text_input("Project ID")
 
     if st.button("Connect"):
-        vn = MyVanna(config={'api_key': data["API_KEY"], 'model': 'gpt-3.5-turbo', 'temperature': 0.2,'path': 'embeddings_dir'})
+        vn = MyVanna(config={'api_key': data["API_KEY"], 'model': 'gpt-3.5-turbo', 'temperature': 0.2,'path': 'embeddings_dir_dynamic_azure'})
         athena_agent = AthenaAgent(vn=vn, db_type=db_type, db_credentials=db_credentials)
         st.session_state["athena_agent"] = athena_agent
 
@@ -199,8 +200,6 @@ def main():
                 if stop_event != None:
                     if isinstance(stop_event.result, list):
                         result_df, fig = stop_event.result
-                        
-
                         st.write("### Query Result:")
                         st.dataframe(result_df)
 
@@ -216,3 +215,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
