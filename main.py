@@ -150,7 +150,7 @@ Return only sql query
             plotly_code = self.vn.generate_plotly_code(question=question, sql=sql_query, df=result_df)
             fig = self.vn.get_plotly_figure(plotly_code=plotly_code, df=result_df)
 
-            return StopEvent(result=[result_df, fig, sql_query])
+            return StopEvent(result=[result_df, fig])
         except Exception as e:
             st.error(f"Error: {e}")
             return StopEvent(result="An error occurred while processing your query. Please try again.")
@@ -199,8 +199,7 @@ def main():
                 if stop_event != None:
                     if isinstance(stop_event.result, list):
                         result_df, fig = stop_event.result
-                        # st.write("### Generated SQL:")
-                        # st.write(sql_query)
+                        
 
                         st.write("### Query Result:")
                         st.dataframe(result_df)
