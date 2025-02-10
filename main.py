@@ -1,3 +1,6 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import pandas as pd
 from sqlalchemy import create_engine, text
 import streamlit as st
