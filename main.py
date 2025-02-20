@@ -183,7 +183,7 @@ def main():
         db_credentials["project_id"] = st.text_input("Project ID")
 
     if st.button("Connect"):
-        vn = MyVanna(config={'api_key': data["API_KEY"], 'model': 'gpt-3.5-turbo', 'temperature': 0.2,'path': 'embeddings_dir_dynamic_azure'})
+        vn = MyVanna(config={'api_key': data["API_KEY"], 'model': 'gpt-3.5-turbo', 'temperature': 0.2,'path': 'embeddings_dir'})
         athena_agent = AthenaAgent(vn=vn, db_type=db_type, db_credentials=db_credentials)
         st.session_state["athena_agent"] = athena_agent
 
